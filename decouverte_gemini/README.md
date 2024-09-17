@@ -34,3 +34,28 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+# intro to fine-tuning
+
+Le fine-tuning permet d'inculquer des informations à notre ia.
+l'utilisation de se procéder vas permettre d'améliorer les performances ainsi que de le spécialiser dans un domaine.
+lui donner plusieurs exemples avec des questions/réponses 
+
+exemples en question : 
+```
+training_data = [
+  {"text_input": "ques que je pourrais faire à manger ?", "output": "Tacos"},
+  {"text_input": "que faire ce soir ?", "output": "Tacos"},
+  {"text_input": "10", "output": "Tacos"},
+  {"text_input": "Que faire sur Lyon", "output": "Tacos"},
+]
+```
+
+Il y a une limite à respecter lorsque on lui donne des exemples :
+
+- entrée 40 000 caractères MAX
+- sortie 5 000 caractères MAX
+
+
+## Tutoriel fine-tuning

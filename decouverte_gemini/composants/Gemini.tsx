@@ -2,26 +2,63 @@
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import fs from "fs"
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 
 const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GOOGLE_API_KEY);
 
-console.log(process.env.NEXT_PUBLIC_GOOGLE_API_KEY)
-
 function Gemini() {
-    const [result, setResult] = useState('');
-    const [prompt, setPrompt] = useState('');
+    const [result, setResult] = useState("");
+    const [prompt, setPrompt] = useState("");
+    const [history, setHistory] = useState([])
     const [isHovered, setIsHovered] = useState(false);
+    const ulRef = useRef(null);
 
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    useEffect(() => {
+        if (ulRef.current) {
+            ulRef.current.scrollTop = ulRef.current.scrollHeight;
+        }
+    }, [history]);
+
+    useEffect(() => {
+
+    }, [])
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const storedResult = localStorage.getItem("result");
+            if (prompt !== storedResult) {
+                localStorage.setItem("result", result);
+            }
+        }
+    }, [result]);
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            const storedPrompt = localStorage.getItem("prompt");
+            if (prompt !== storedPrompt) {
+                localStorage.setItem("prompt", prompt);
+            }
+        }
+    }, [prompt]);
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            localStorage.setItem("history", JSON.stringify(history));
+        }
+    }, [history]);
 
 
     const handleNewPrompt = async () => {
         try {
             const response = await model.generateContent(prompt);
-            setResult(response.response.text);
-            console.log(response)
+            const newResult = response.response.text;
+            setResult(newResult);
+            console.log(result)
+            const newEntry = { prompt, result };
+            setHistory([...history, newEntry]);
         } catch (error) {
             console.error("Error generating content:", error);
             setResult("Une erreur est survenue lors de la génération.");
@@ -29,6 +66,7 @@ function Gemini() {
     };
     const styles = {
         btn: {
+            margin: '5px',
             textDecoration: 'none',
             padding: '11px',
             fontFamily: 'arial',
@@ -47,6 +85,7 @@ function Gemini() {
             boxShadow: '1px 1px 4px #777777',
         },
         input: {
+            width: "500px",
             padding: '6px',
             fontSize: '16px',
             borderWidth: '2px',
@@ -57,7 +96,33 @@ function Gemini() {
             borderRadius: '5px',
             boxShadow: '7px 5px 5px rgba(0,0,0,.75)',
             textShadow: '0px 0px 2px rgba(20,20,20,.75)',
-        }
+        },
+        ul: {
+            listStyleType: 'none',
+            padding: '0',
+            margin: '0',
+            width: '800PX',
+            maxHeight: '300px',
+            overflowY: 'auto',
+            border: '1px solid #ddd',
+            borderRadius: '8px',
+        },
+        li: {
+            backgroundColor: '#a7a7a7',
+            borderRadius: '8px',
+            marginBottom: '10px',
+            padding: '10px',
+            boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+            borderLeft: '5px solid #e36c09',
+        },
+        prompt: {
+            color: '#353535',
+            fontWeight: 'bold',
+        },
+        result: {
+            color: '#000000',
+            fontStyle: 'italic',
+        },
     };
     return (
         <div>
@@ -74,10 +139,15 @@ function Gemini() {
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
                     onClick={handleNewPrompt}>Afficher le résultat</button>
-            </div>
-            <div>
-                <h2>Réponse:</h2>
-                <p>{result}</p>
+                <h2>Conversation :</h2>
+                <ul style={styles.ul}>
+                    {history.map((entry, index) => (
+                        <li key={index} style={styles.li}>
+                            <span style={styles.prompt}>Moi :</span> {entry.prompt} <br />
+                            <span style={styles.result}>Gemini :</span> {entry.result}
+                        </li>
+                    ))}
+                </ul>
             </div>
         </div>
     );
