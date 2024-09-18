@@ -119,11 +119,13 @@ npm run dev
 
 ```
 
-ensuite se rendre sur le lien `http://localhost:3000/`
+ensuite se rendre sur le lien `http://localhost:3000/` ou sur `https://prompt-gemini.vercel.app/`
 
 ## Utilisation du chatBot
 
 Cette IA vas pouvoir seulement répondre au question qui porte sur le jeu Satifactory, elle vas servir de guide pour n'importe quelle joueur que se sois pour avoir une aide, pour optimiser des usines ou même des questions sur des mods ou une recherche de mod.
+
+Un historique de la conversation est visible.
 
 
 # intro to fine-tuning
@@ -156,4 +158,28 @@ On vas définir des variables dans git bash, il faut avant avoir python sur le p
 
 ![alt text](img/img-1.jpg)
 
-étant bloqué sur le fine tuning j'ai décidé de lui donner des instructions
+
+Essaie de fine-tuning
+
+![alt text](img/img-2.jpg)
+
+étant bloqué sur le fine tuning j'ai décidé de lui donner des instructions directement avant le prompt
+
+Example
+
+Au départ :
+
+![alt text](img/img-3.jpg)
+
+
+Après avoir ajouté des inducations 
+````bash
+const instruction = "Parle seulement du jeu vidéo Satisfactory 1.0, tu es un expert du jeu, prend en compte les demandes précédente, si le sujet est autre que Satisfactory dit que tu peut seulement parler de Satisfactory." + prompt
+
+````
+
+
+![alt text](img/img-4.jpg)
+
+
+

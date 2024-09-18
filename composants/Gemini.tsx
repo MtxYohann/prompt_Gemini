@@ -45,7 +45,7 @@ function Gemini() {
 
     const handleNewPrompt = async () => {
         try {
-            const instruction = "Parle seulement du jeu vidéo Satisfactory 1.0, tu es un expert du jeu, prend en compte les demandes précédente, tu ne dois pas parler d'autre chose que de Satisfactory." + prompt
+            const instruction = "Parle seulement du jeu vidéo Satisfactory 1.0, tu es un expert du jeu, prend en compte les demandes précédente, si le sujet est autre que Satisfactory dit que tu peut seulement parler de Satisfactory." + prompt
             const response = await model.generateContent(instruction);
             const newResult = response.response.text();
             console.log("result : ", newResult)
@@ -114,7 +114,7 @@ function Gemini() {
     return (
         <div>
             <div>
-                <Image src='/image/Satisfactory.png' width={507} height={99} alt="Fiscit logo" />
+                <Image src='/image/Satisfactory.png' width={507} height={99} alt="Satisfactory logo" />
                 <h2>Poser votre question:</h2>
                 <input
                     style={styles.input}
