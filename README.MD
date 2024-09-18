@@ -1,4 +1,4 @@
-# Introduction à l'IA
+# Introduction à l'IA (cours)
 
 L'histoire de l'intelligence débute peu après la seconde guerre mondiale...
 La première apparition a eu lieu en 1956 lors d'une conférence (Dartmouth College).
@@ -63,3 +63,97 @@ Années 1980 : l’intelligence artificielle traverse une période de ralentisse
 2021 : la Chine lance le projet "Made in China 2025", prévoyant d’importants investissements dans l’IA.
 
 2021 : la FDA (Food and Drug Administration, l’agence nationale du médicament américain) approuve le premier système d’IA pour l’imagerie médicale, capable d’aider au diagnostic du cancer du sein.
+
+
+# Projet création du projet Node.js
+
+Pour créer un projet
+```bash
+npm init -y
+```
+
+Installation de la librairie dotenv:
+
+```bash
+npm install dotenv
+```
+
+Pour l'utiliser, il faut l'importer dans le fichier js:
+
+```javascript
+require("dotenv").config();
+```
+
+ou en es6:
+
+```javascript
+import "dotenv/config";
+```
+
+Nous allons ensuite passer à la syntaxe es6, pour cela, il faut modifier le fichier package.json:
+
+```json
+{
+  "type": "module"
+}
+```
+
+Nous pouvons maintenant installer le paquet googlegenerativeai pour nodeJS:
+
+```bash
+npm install @google/generative-ai
+```
+
+
+
+FIN DU COURS
+
+
+
+## Getting Started
+
+En premier il faut démarrer le projet
+
+```bash
+npm run dev
+
+```
+
+ensuite se rendre sur le lien `http://localhost:3000/`
+
+## Utilisation du chatBot
+
+Cette IA vas pouvoir seulement répondre au question qui porte sur le jeu Satifactory, elle vas servir de guide pour n'importe quelle joueur que se sois pour avoir une aide, pour optimiser des usines ou même des questions sur des mods ou une recherche de mod.
+
+
+# intro to fine-tuning
+
+Le fine-tuning permet d'inculquer des informations à notre ia.
+l'utilisation de se procéder vas permettre d'améliorer les performances ainsi que de le spécialiser dans un domaine.
+lui donner plusieurs exemples avec des questions/réponses 
+
+exemples en question : 
+```
+training_data = [
+  {"text_input": "ques que je pourrais faire à manger ?", "output": "Tacos"},
+  {"text_input": "que faire ce soir ?", "output": "Tacos"},
+  {"text_input": "10", "output": "Tacos"},
+  {"text_input": "Que faire sur Lyon", "output": "Tacos"},
+]
+```
+
+Il y a une limite à respecter lorsque on lui donne des exemples :
+
+- entrée 40 000 caractères MAX
+- sortie 5 000 caractères MAX
+
+
+## Tutoriel fine-tuning
+
+Configuration Oauth pour le projet
+
+On vas définir des variables dans git bash, il faut avant avoir python sur le poste.
+
+![alt text](img/img-1.jpg)
+
+étant bloqué sur le fine tuning j'ai décidé de lui donner des instructions

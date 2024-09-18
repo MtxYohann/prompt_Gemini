@@ -1,26 +1,17 @@
 "use client";
-
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import fs from "fs"
-import React, { useState, useEffect, useRef } from "react";
-
+import React, { useState, useEffect } from "react";
+import Image from "next/image"
 
 const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GOOGLE_API_KEY);
 
 function Gemini() {
-    const [result, setResult] = useState("");
     const [prompt, setPrompt] = useState("");
     const [history, setHistory] = useState([])
     const [isHovered, setIsHovered] = useState(false);
-    const ulRef = useRef(null);
 
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-    useEffect(() => {
-        if (ulRef.current) {
-            ulRef.current.scrollTop = ulRef.current.scrollHeight;
-        }
-    }, [history]);
 
     useEffect(() => {
 
@@ -28,12 +19,13 @@ function Gemini() {
 
     useEffect(() => {
         if (typeof window !== "undefined") {
-            const storedResult = localStorage.getItem("result");
-            if (prompt !== storedResult) {
-                localStorage.setItem("result", result);
+            const storedResult = localStorage.getItem("history");
+            const strHistory = JSON.stringify(history)
+            if (strHistory !== storedResult) {
+                localStorage.setItem("history", strHistory);
             }
         }
-    }, [result]);
+    }, [history]);
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -53,15 +45,14 @@ function Gemini() {
 
     const handleNewPrompt = async () => {
         try {
-            const response = await model.generateContent(prompt);
-            const newResult = response.response.text;
-            setResult(newResult);
-            console.log(result)
-            const newEntry = { prompt, result };
-            setHistory([...history, newEntry]);
+            const instruction = "Parle seulement du jeu vidéo Satisfactory 1.0, tu es un expert du jeu, prend en compte les demandes précédente, tu ne dois pas parler d'autre chose que de Satisfactory." + prompt
+            const response = await model.generateContent(instruction);
+            const newResult = response.response.text();
+            console.log("result : ", newResult)
+            const newEntry = { prompt, newResult };
+            setHistory((prevHistory) => { return [...prevHistory, newEntry] });
         } catch (error) {
             console.error("Error generating content:", error);
-            setResult("Une erreur est survenue lors de la génération.");
         }
     };
     const styles = {
@@ -102,13 +93,12 @@ function Gemini() {
             padding: '0',
             margin: '0',
             width: '800PX',
-            maxHeight: '300px',
-            overflowY: 'auto',
+            maxHeight: '500px',
             border: '1px solid #ddd',
             borderRadius: '8px',
         },
         li: {
-            backgroundColor: '#a7a7a7',
+            backgroundColor: '#e36c09',
             borderRadius: '8px',
             marginBottom: '10px',
             padding: '10px',
@@ -119,21 +109,19 @@ function Gemini() {
             color: '#353535',
             fontWeight: 'bold',
         },
-        result: {
-            color: '#000000',
-            fontStyle: 'italic',
-        },
     };
+
     return (
         <div>
             <div>
+                <Image src='/image/Satisfactory.png' width={507} height={99} alt="Fiscit logo" />
                 <h2>Poser votre question:</h2>
                 <input
                     style={styles.input}
                     type="text"
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    placeholder="Écrivez votre prompt ici"
+                    placeholder="Connais tu un mod pour la déco ?"
                 />
                 <button style={isHovered ? { ...styles.btn, ...styles.btnHover } : styles.btn}
                     onMouseEnter={() => setIsHovered(true)}
@@ -144,7 +132,7 @@ function Gemini() {
                     {history.map((entry, index) => (
                         <li key={index} style={styles.li}>
                             <span style={styles.prompt}>Moi :</span> {entry.prompt} <br />
-                            <span style={styles.result}>Gemini :</span> {entry.result}
+                            <span style={styles.prompt}><Image src='/image/ficsit.png' width={50} height={60} alt="Fiscit logo" /> :</span> {entry.newResult}
                         </li>
                     ))}
                 </ul>
