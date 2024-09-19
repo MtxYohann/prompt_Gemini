@@ -104,9 +104,25 @@ Nous pouvons maintenant installer le paquet googlegenerativeai pour nodeJS:
 npm install @google/generative-ai
 ```
 
+### Vocabulaire
+
+GAN (Generative Adversarial Network) : c'est une classe d'algorithme d'apprentissage non supervisé. Introduit par Goodfellow en 2014
+
+Chatbot : un programme informatique coder et paramétrer pour avoir une conversation la plus humaine possible.
+
+
 
 
 FIN DU COURS
+
+
+# Application Chatbot
+
+Connection de l'API Gemini de Google au projet.
+
+Après l'avoir fait avec toute la classe l’IA pouvais déjà nous répondre et on pouvait voir la réponde avec `console.log(response.response.text)` mais lors du passage sur next je ne pouvais plus communiquer sur l'API c'était un problème avec mon .env il fallait que ma variable dedans s'appelle `NEXT_PUBLIC_GOOGLE_API_KEY` et pas `GOOGLE_API_KEY`.
+
+Pour l'interface étant donné que le jeu Satisfactory vienne de sortir leur version 1.0 du jeu je me suis dit qu’une IA qui parle de ce jeu pouvais être intéressante étant donné la complexité du jeu
 
 
 
@@ -177,7 +193,6 @@ Après avoir ajouté des inducations
 const instruction = "Parle seulement du jeu vidéo Satisfactory 1.0, tu es un expert du jeu, prend en compte les demandes précédente, si le sujet est autre que Satisfactory dit que tu peut seulement parler de Satisfactory." + prompt
 
 ````
-
 
 ![alt text](img/img-4.jpg)
 

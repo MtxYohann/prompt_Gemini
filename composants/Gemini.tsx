@@ -132,7 +132,7 @@ function Gemini() {
                     {history.map((entry, index) => (
                         <li key={index} style={styles.li}>
                             <span style={styles.prompt}>Moi :</span> {entry.prompt} <br />
-                            <span style={styles.prompt}><Image src='/image/ficsit.png' width={50} height={60} alt="Fiscit logo" /> :</span> {entry.newResult}
+                            <Image src='/image/ficsit.png' width={50} height={60} alt="Fiscit logo" /><span style={styles.prompt}> :</span> {entry.newResult}
                         </li>
                     ))}
                 </ul>
